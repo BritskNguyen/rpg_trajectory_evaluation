@@ -46,11 +46,41 @@ The package can be used as a ROS package as well as a standalone tool.
 To use it as a ROS package, simply clone it into your workspace.
 It only depends on [`catkin_simple`](https://github.com/catkin/catkin_simple) to build.
 
-**Dependencies**: You will need install the following:
+**Dependencies**: You will need install the following (examples for Ubuntu 18.04):
 
-* `numpy` and `matplotlib` for the analysis/plotting
+* `numpy` and `matplotlib` for the analysis/plotting:
+
+```
+sudo apt-get install python-numpy;
+sudo apt-get install python3-matplotlib;
+```
+
 * `colorama` for colored console output
+
+```
+pip install colorama
+```
+
 * `ruamel.yaml` ([install](https://pypi.org/project/ruamel.yaml/)) for [preserving the order in yaml configurations](https://stackoverflow.com/questions/5121931/in-python-how-can-you-load-yaml-mappings-as-ordereddicts)
+
+```
+pip install ruamel.yaml
+```
+
+**Fixes for some errors**: If there are errors when running the examples, you can try installing more dependencies as follows:
+
+* To solve the error _AttributeError: 'module' object has no attribute 'FullLoader'_ , install
+
+```
+pip install PyYAML==5.1
+```
+
+* Next you may get _OSError: [Errno 2] No such file or directory: 'latex'_ , try
+
+```
+sudo apt install texlive-fonts-recommended texlive-fonts-extra;
+sudo apt-get install dvipng;
+```
 
 ## Prepare the Data
 Each trajectory estimate (e.g., output of a visual-inertial odometry algorithm) to evaluate is organized as a self-contained folder.
