@@ -245,7 +245,30 @@ class Trajectory:
             self.q_es_aligned[i, :] = tf.quaternion_from_matrix(q_es_T)
 
         self.data_aligned = True
-        print(Fore.GREEN+"... trajectory alignment done.")
+        print(Fore.GREEN+"... trajectory alignment done:\n"
+                         "trans:\n{}\n"
+                         "rot:\n{}\n"
+                         "scale:\n{}\n".format(self.trans, self.rot, self.scale)
+             )
+
+        print(Fore.GREEN+"... inverse transform:\n"
+                         "trans:\n{}\n"
+                         "rot:\n{}\n"
+                         "scale:\n{}\n".format(-np.transpose(self.rot).dot(self.trans),
+                                                np.transpose(self.rot),
+                                                self.scale))
+        tf_file = open(os.path.join(self.data_dir, 'transform.csv'),'w')
+
+        # optimized_transform = np.append(self.rot, self.trans.transpose())
+        # np.savetxt(tf_file, optimized_transform, delimiter=",")
+
+        tf_file.write('# T0, T1, T2, T3\n')
+        tf_file.write("{0:.9f},{1:.9f},{2:.9f},{3:.9f}\n"
+                      "{4:.9f},{5:.9f},{6:.9f},{7:.9f}\n"
+                      "{8:.9f},{9:.9f},{10:.9f},{11:.9f}\n"
+                      "0.0,0.0,0.0,1.0\n".format(self.rot[0][0], self.rot[0, 1], self.rot[0, 2], self.trans[0],
+                                                 self.rot[1][0], self.rot[1, 1], self.rot[1, 2], self.trans[1],
+                                                 self.rot[2][0], self.rot[2, 1], self.rot[2, 2], self.trans[2]))
 
     def compute_absolute_error(self):
         if self.abs_errors:
